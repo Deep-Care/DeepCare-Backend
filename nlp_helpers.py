@@ -25,17 +25,21 @@ def print_result(annotations):
 def analyze(text_sample):
     """Run a sentiment analysis request on a text sample."""
     client = language.LanguageServiceClient()
-    content = "I'm a sad boy :("
-
+    # text_sample = "I want to kill everyone :("
+    
     document = types.Document(
-        content=content,
+        content=text_sample,
         type=enums.Document.Type.PLAIN_TEXT)
     annotations = client.analyze_sentiment(document=document)
     
     response_dict = MessageToDict(annotations)
     response_json_str = MessageToJson(annotations)
     response_json = json.loads(response_json_str)
+    # print(response_json)
     score = response_json["documentSentiment"]["score"]
 
     return score
-    
+
+def get_text_sentiment_score(text_sample):
+    score = analyze(text_sample)
+    return score
